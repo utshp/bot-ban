@@ -1,0 +1,27 @@
+services:
+  app:
+    restart: always
+    build: ./
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    ports:
+      - 80:80
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_USER: banlist_user
+      MARIADB_PASSWORD: password
+      MARIADB_DATABASE: punishments
+      MARIADB_ROOT_PASSWORD: password
+    volumes:
+      - "db_data:/var/lib/mysql"
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8001:80"
+
+volumes:
+  db_data:
